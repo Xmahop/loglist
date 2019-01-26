@@ -1,0 +1,40 @@
+{% extends "loglists/base.html" %}
+
+{% block header %}
+  <h1>Topics</h1>
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+  <li>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css"/>
+    <div class="container post-container">
+      <div class="well">
+          <div class="media">
+            <a class="pull-left" href="#">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">{{ post }}</h4>
+              <p class="text-right">By username</p>
+              <p>asd</p>
+              <ul class="list-inline list-unstyled">
+          </ul>
+           </div>
+  </li>
+{% empty %}
+  <li>No topics have been added yet.</li>
+{% endfor %}
+
+<style media="screen">
+  .post-container {
+    background-color: #f3f3f3;
+  }
+</style>
+{% endblock content %}
+
+
+<ul>
+
+</ul>
+
+<h3><a href="#">Add new topic</h3>
