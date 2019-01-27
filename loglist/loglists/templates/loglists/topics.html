@@ -1,7 +1,7 @@
 {% extends "loglists/base.html" %}
 {% block content %}
 <div class="container">
-{% for post in posts %}
+{% for post in all_post %}
   <div class="well">
     <div class="user">
         Добавил <a href="#">xmahop</a>
@@ -13,8 +13,36 @@
 {% empty %}
   <li>No topics have been added yet.</li>
 {% endfor %}
+<nav aria-label="...">
+  <ul class="pagination">
+
+    {% if all_post.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ all_post.previous_page_number }}" tabindex="">←</a>
+        </li>
+    {% endif %}
+
+    {% for num in all_post.paginator.page_range %}
+        {% if num == all_post.number %}
+        <li class="page-item active">
+          <a class="page-link" href="?page={{num}}">{{num}} <span class="sr-only"></span></a>
+        </li>
+        {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{num}}">{{num}} <span class="sr-only"></span></a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% if all_post.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ all_post.next_page_number }}" tabindex="">→</a>
+        </li>
+    {% endif %}
+
 </div>
 <style>
+
    @import url('https://fonts.googleapis.com/css?family=Montserrat');
   .well {
     background-color: #f3f3f3;
@@ -42,6 +70,14 @@ box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
     color: black;
     font-weight: 600;
     font-size: 18px;
+  }
+  .time {
+    text-align: right;
+    padding-right: 40px;
+  }
+  .pagination {
+    width/max-width: 800px;
+    margin: 0 auto;
   }
 </style>
 {%endblock content%}
