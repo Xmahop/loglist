@@ -9,5 +9,5 @@ app_name = 'logslists'
 urlpatterns = [
     # Home page.
     path('', views.index, name='index'),
-    path(r'topics/', views.posts, name='posts')
+    path(r'posts/', views.posts, name='posts'),
 ]
