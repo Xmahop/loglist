@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .models import Post #импортируем модель Post
+from .forms import PostForm #достаем из форм модель для формы нового поста
 from django.core.paginator import Paginator #пагинация
 
 # Create your views here.
@@ -11,9 +13,31 @@ def index(request):
 def posts(request, page_number=1):
     """Show all topics."""
     posts = Post.objects.order_by('-date_now') #получаем все объекты модели Post с сортировкой по времени
-    paginator = Paginator(posts, 3) # создаем переменную типа Paginator и указываем что post должны отображаться по 15 на странице
+    paginator = Paginator(posts, 15) # создаем переменную типа Paginator и указываем что post должны отображаться по 15 на странице
     page = request.GET.get('page')
     all_post = paginator.get_page(page)
     #post_by_time = posts.order_by('-date_now')  #сортируем объекты модели Post по дате, вверху - последние
     context = {'all_post': all_post} #отгружаем словарь
     return render(request, 'loglists/topics.html', context) #возвращаем шаблон и словарь
+
+def new_post(request):
+    if request.method != 'POST':
+        form = PostForm()
+        #Данные не отправлялись, создаем пустую форму
+    else:
+        #POST запрос, обрабатываем
+        form = PostForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('loglists:posts'))
+    context = {'form': form}
+    return render(request, 'loglists/new_post.html', context)
+
+def as_myp(self):
+    "Returns this form rendered as HTML <p>s."
+    return self._html_output(
+        normal_row = '<p%(html_class_attr)s>%(label)s</p> <p>%(field)s%(help_text)s</p>',
+        error_row = '%s',
+        row_ender = '</p>',
+        help_text_html = ' <span class="helptext">%s</span>',
+        errors_on_separate_row = True)

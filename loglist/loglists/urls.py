@@ -10,4 +10,5 @@ urlpatterns = [
     # Home page.
     path('', views.index, name='index'),
     path(r'posts/', views.posts, name='posts'),
+    path('new_post/', views.new_post, name='new_post'),
 ]
