@@ -7,9 +7,14 @@
 
     <div class="row">
         <div class="col-md-3 left-frame">
-            <ul>
+            <div class="col-md-12 first-block">
+                <ul>
               <li><a href="#"><i class="fas fa-plus plus"></i> Добавить запись</a></li>
              </ul>
+            </div>
+            <div class="col-md-12 second-block">
+                <a href="#">Выйти</a>
+            </div>
         </div>
 
         <div class="col-lg-8">
@@ -124,8 +129,7 @@
   }
 
   .left-frame {
-  background-color: #fff;
-  height: 150px;
+  height: 350px;
 postition: relative;
 z-index: 999999;
 }
@@ -145,6 +149,16 @@ color: #30a4f2 !important;
 }
 .left-side {
 margin-top:
+}
+.first-block {
+background-color: #fff;
+height: 50%;
+width: 100%;
+}
+
+.second-block {
+margin-top: 3%;
+background-color: #fff;
 }
 </style>
 {%endblock content%}
