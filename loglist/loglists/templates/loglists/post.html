@@ -1,0 +1,28 @@
+
+{% extends 'loglists/base.html' %}
+
+
+
+{% block content %}
+
+
+  {% for post in posst %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          {{ post.date_now|date:'M d, Y H:i' }}
+          <small>
+            <a href="{% url 'loglists:edit_post' post.id %}">
+              edit entry</a>
+          </small>
+        </h3>
+      </div>
+      <div class="panel-body">
+        {{ post.switch_ip }}
+      </div>
+    </div> <!-- panel -->
+  {% empty %}
+    There are no entries for this topic yet.
+  {% endfor %}
+
+{% endblock content %}

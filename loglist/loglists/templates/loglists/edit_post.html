@@ -1,0 +1,23 @@
+{% extends "loglists/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+  <p><a href="{% url 'loglists:posts' %}">Вернуться</a></p>
+
+  <p>Edit entry:</p>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+      <div class="col-3">
+        {{ form.switch_ip|as_crispy_field }}
+      </div>
+      <div class="col-3">
+
+                {{ form.text|as_crispy_field }}
+
+      </div>
+  <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+ </form>
+
+{% endblock content %}
