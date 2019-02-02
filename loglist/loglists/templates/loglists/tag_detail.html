@@ -1,0 +1,11 @@
+{% extends 'loglists/base.html' %}
+
+{% block content %}
+<h1>tags</h1>
+
+{% for post in tag.posts.all %}
+    <li>{{post}}</li>
+{% empty %}
+    <li>no tags added</li>
+{% endfor %}
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Post #импортируем модель Post
+from .models import Post, Tag #импортируем модель Post
 from .forms import PostForm #достаем из форм модель для формы нового поста
 from django.core.paginator import Paginator #пагинация
 # Create your views here.
@@ -69,3 +69,15 @@ def edit_post(request, post_id):
                 'form': form}
 
     return render (request, 'loglists/edit_post.html', context)
+
+def tag_list(request):
+    tags = Tag.objects.all()
+    context = {'tags': tags}
+
+    return render(request, 'loglists/tag_list.html', context)
+
+def tag_detail (request, slug):
+    tag = Tag.objects.get(slug__iexact=slug)
+    context = {'tag': tag}
+
+    return render(request, 'loglists/tag_detail.html', context)
