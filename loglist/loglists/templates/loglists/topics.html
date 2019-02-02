@@ -13,15 +13,24 @@
              </ul>
             </div>
             <div class="col-md-12 second-block">
-                <a href="#">Выйти</a>
+                <li class="pt-1"><a href="{% url 'loglists:posts' %}">Все города</a></li>
+                {%for tag in tags%}
+                    <li><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a></li>
+                {%endfor%}
             </div>
         </div>
 
         <div class="col-lg-8">
+
 {% for post in all_post %}
       <div class="post">
         <div class="post-container">
-            <div class="post-header col-md-4"><a href="+">Xmahop</a> <p>{{post.date_now}}</p></div>
+            <div class="post-header col-md-4"><a href="+">Xmahop</a></div>
+            {% for tag in post.tags.all %}
+                <div class="post-date col-md-12"><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a> @ <p>{{post.date_now}}</p></div>
+            {% empty %}
+                <div class="post-date col-md-12"><p>{{post.date_now}}</p></div>
+            {% endfor %}
             <div class="post-title col-md-8"><a href="#">{{post.switch_ip}}</a></div>
             <div class="post-text col-md-12">{{post.text}}</div>
             <div class="post-edit col-md-3"><a href="{% url 'loglists:edit_post' post.id %}"><i class="fas fa-edit"></i></a></div>
@@ -159,6 +168,11 @@ width: 100%;
 .second-block {
 margin-top: 3%;
 background-color: #fff;
+}
+
+
+.post-date p{
+display: inline;
 }
 </style>
 {%endblock content%}

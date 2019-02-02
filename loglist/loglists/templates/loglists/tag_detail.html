@@ -1,11 +1,141 @@
 {% extends 'loglists/base.html' %}
 
 {% block content %}
-<h1>tags</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 left-frame">
+            <div class="col-md-12 first-block">
+                <ul>
+              <li><a href="#"><i class="fas fa-plus plus"></i> Добавить запись</a></li>
+             </ul>
+            </div>
+            <div class="col-md-12 second-block">
+                <li><a href="{% url 'loglists:posts' %}">Все города</a></li>
+                {%for tag in tags%}
+                    <li><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a></li>
+                {%endfor%}
+            </div>
+        </div>
 
+        <div class="col-lg-8">
 {% for post in tag.posts.all %}
-    <li>{{post}}</li>
+          <div class="post">
+        <div class="post-container">
+            <div class="post-header col-md-4"><a href="+">Xmahop</a></div>
+            {% for tag in post.tags.all %}
+                <div class="post-date col-md-12"><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a> @ <p>{{post.date_now}}</p></div>
+            {% empty %}
+                <div class="post-date col-md-12"><p>{{post.date_now}}</p></div>
+            {% endfor %}
+            <div class="post-title col-md-8"><a href="#">{{post.switch_ip}}</a></div>
+            <div class="post-text col-md-12">{{post.text}}</div>
+            <div class="post-edit col-md-3"><a href="{% url 'loglists:edit_post' post.id %}"><i class="fas fa-edit"></i></a></div>
+            <div class="post-line col-md-8"></div>
+        </div>
+      </div>
 {% empty %}
     <li>no tags added</li>
 {% endfor %}
+</div>
+<style>
+     body {
+    color: #14171a;
+    font-size: 14px;
+  }
+  body a {
+    color: #30a4f2;
+  }
+  body a:hover {
+    text-decoration: none;
+  }
+
+  li {
+  list-style-type: none;
+  }
+  .post:hover {
+    background-color: #f5f8fa;
+  }
+  .post {
+    background-color: #fff;
+    margin: 0 auto;
+
+  }
+  .post-container {
+    padding-top: 1%;
+  }
+  .post-name {
+    color: #14171a;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .post-title {
+    padding-right: 40px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .container {
+    padding-top: 30px;
+  }
+
+  .post-header a {
+    font-size: 14px;
+  }
+  .post-header p {
+    color: #657786;
+    font-size: 14px;
+  }
+  .post-line {
+  margin-top:20px;
+  border-top:1px solid #e6ecf0;
+  min-width: 130%;
+  margin-left: -40px;
+
+  }
+  .post-edit {
+    margin-top: 8px;
+    font-size: 20px;
+  }
+  .pagination {
+    width/max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .left-frame {
+  height: 350px;
+postition: relative;
+z-index: 999999;
+}
+
+
+.left-frame ul {
+margin-left: -40px;
+padding-top: 10%;
+}
+.pag {
+margin: 0 auto;
+z-index: 999999;
+}
+
+.fa-plus {
+color: #30a4f2 !important;
+}
+.left-side {
+margin-top:
+}
+.first-block {
+background-color: #fff;
+height: 50%;
+width: 100%;
+}
+
+.second-block {
+margin-top: 3%;
+background-color: #fff;
+}
+
+
+.post-date p{
+display: inline;
+}
+</style>
 {% endblock %}

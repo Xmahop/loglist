@@ -15,8 +15,10 @@ def posts(request, page_number=1):
     paginator = Paginator(posts, 5) # создаем переменную типа Paginator и указываем что post должны отображаться по 15 на странице
     page = request.GET.get('page')
     all_post = paginator.get_page(page)
+    tags = Tag.objects.all()
     #post_by_time = posts.order_by('-date_now')  #сортируем объекты модели Post по дате, вверху - последние
-    context = {'all_post': all_post} #отгружаем словарь
+    context = {'all_post': all_post,
+               'tags':tags} #отгружаем словарь
     return render(request, 'loglists/topics.html', context) #возвращаем шаблон и словарь
 
 
@@ -78,6 +80,7 @@ def tag_list(request):
 
 def tag_detail (request, slug):
     tag = Tag.objects.get(slug__iexact=slug)
-    context = {'tag': tag}
-
+    tags = Tag.objects.all()
+    context = {'tag': tag,
+               'tags':tags}
     return render(request, 'loglists/tag_detail.html', context)
