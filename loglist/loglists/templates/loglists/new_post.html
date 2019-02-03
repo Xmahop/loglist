@@ -6,19 +6,31 @@
 
 
 <div class="container">
-{% block content %}
-<form class="add" method="post" novalidate>
+  {% block content %}
+<form class="add col-md-12" method="post" novalidate>
   {% csrf_token %}
-    <div class="form-group col-3">
+    <div class="form-group">
       {{ form.switch_ip|as_crispy_field }}
     </div>
-    <div class="form-group col-3">
+    <div class="form-group">
       {{ form.text|as_crispy_field }}
     </div>
+      <div class="form-group">
+          {{form.tags|as_crispy_field}}
+      </div>
 <button type="submit" class="btn btn-primary mb-2">Добавить</button>
 </form>
 <style media="screen">
+.asteriskField {
+    display: none;
+}
+.add {
+margin: 0 auto;
+}
 
+#id_tags {
+height: 150px;
+}
 </style>
 {% endblock %}
 </div>
