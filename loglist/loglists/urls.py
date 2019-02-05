@@ -9,10 +9,10 @@ app_name = 'logslists'
 urlpatterns = [
     # Home page.
     path('', views.index, name='index'),
-    path(r'posts/', views.posts, name='posts'),
+    path('posts/', views.posts, name='posts'),
     path('new_post/', views.new_post, name='new_post'),
     path('posts/<int:post_id>/', views.post, name='post'),
     path('edit_post/<int:post_id>/', views.edit_post, name='edit_post'),
-    path('posts/tag_list/', views.tag_list, name='tag_list'),
-    path('posts/<str:slug>', views.tag_detail, name='tag_detail')
+    path('posts/<str:tag_slug>', views.posts, name='post_list_by_tag'),
     ]
+#    path('posts/<str:tag_slug>', views.posts, name="post_by_tags"),

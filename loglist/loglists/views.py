@@ -1,25 +1,26 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Post, Tag #импортируем модель Post
+from .models import Post
 from .forms import PostForm #достаем из форм модель для формы нового поста
 from django.core.paginator import Paginator #пагинация
+from taggit.models import Tag
 # Create your views here.
 
 def index(request):
     """The home page for Learning Log."""
     return render(request, 'loglists/index.html') #возвращает шаблон главной страницы
-def posts(request, page_number=1):
-    """Show all topics."""
-    posts = Post.objects.order_by('-date_now') #получаем все объекты модели Post с сортировкой по времени
-    paginator = Paginator(posts, 5) # создаем переменную типа Paginator и указываем что post должны отображаться по 15 на странице
-    page = request.GET.get('page')
-    all_post = paginator.get_page(page)
-    tags = Tag.objects.all()
-    #post_by_time = posts.order_by('-date_now')  #сортируем объекты модели Post по дате, вверху - последние
-    context = {'all_post': all_post,
-               'tags':tags} #отгружаем словарь
-    return render(request, 'loglists/topics.html', context) #возвращаем шаблон и словарь
+def posts(request, tag_slug=None):
+    object_list = Post.objects.order_by('-date_now')
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
+
+    context = {'object_list': object_list,
+                'tag': tag}
+    return render(request, 'loglists/topics.html', context)
 
 
 def new_post(request):
@@ -36,14 +37,6 @@ def new_post(request):
     return render(request, 'loglists/new_post.html', context)
 
 
-def as_myp(self):
-    "Returns this form rendered as HTML <p>s."
-    return self._html_output(
-        normal_row = '<p%(html_class_attr)s>%(label)s</p> <p>%(field)s%(help_text)s</p>',
-        error_row = '%s',
-        row_ender = '</p>',
-        help_text_html = ' <span class="helptext">%s</span>',
-        errors_on_separate_row = True)
 
 def post(request, post_id):
     """Show a single topic, and all its entries."""
@@ -71,16 +64,3 @@ def edit_post(request, post_id):
                 'form': form}
 
     return render (request, 'loglists/edit_post.html', context)
-
-def tag_list(request):
-    tags = Tag.objects.all()
-    context = {'tags': tags}
-
-    return render(request, 'loglists/tag_list.html', context)
-
-def tag_detail (request, slug):
-    tag = Tag.objects.get(slug__iexact=slug)
-    tags = Tag.objects.all()
-    context = {'tag': tag,
-               'tags':tags}
-    return render(request, 'loglists/tag_detail.html', context)

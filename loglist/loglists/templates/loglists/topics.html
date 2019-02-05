@@ -13,31 +13,36 @@
              </ul>
             </div>
             <div class="col-md-12 second-block">
-                <li class="pt-1"><a href="{% url 'loglists:posts' %}">Все города</a></li>
-                {%for tag in tags%}
-                    <li><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a></li>
-                {%endfor%}
+                {% for post in object_list %}
+                   {{ post.tags.all|join:" " }}
+                {%endfor %}
             </div>
         </div>
 
         <div class="col-lg-8">
 
-{% for post in all_post %}
+{% for post in object_list %}
       <div class="post">
         <div class="post-container">
             <div class="post-header col-md-4"><a href="+">Xmahop</a></div>
-            {% for tag in post.tags.all %}
-                <div class="post-date col-md-12"><a href="{% url 'loglists:tag_detail' tag.slug %}">{{tag.title}}</a> @ <p>{{post.date_now}}</p></div>
-            {% empty %}
-                <div class="post-date col-md-12"><p>{{post.date_now}}</p></div>
-            {% endfor %}
+            <div class="post-date col-md-12">
+                {% for tag in post.tags.all %}
+                    <a href="{% url "loglists:post_list_by_tag" tag.slug %}">
+                        {{ tag.name }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                @ <p>{{post.date_now}}</p>
+            </div>
             <div class="post-title col-md-8"><a href="#">{{post.switch_ip}}</a></div>
             <div class="post-text col-md-12">{{post.text}}</div>
+            <div class="col-md-12">
             <div class="post-edit col-md-3"><a href="{% url 'loglists:edit_post' post.id %}"><i class="fas fa-edit"></i></a></div>
             <div class="post-line col-md-8"></div>
         </div>
       </div>
-
+{% empty %}
+            asdasd
 {% endfor %}
         </div>
     </div>
@@ -48,29 +53,6 @@
 <nav aria-label="...">
   <ul class="pagination">
 
-    {% if all_post.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ all_post.previous_page_number }}" tabindex="">←</a>
-        </li>
-    {% endif %}
-
-    {% for num in all_post.paginator.page_range %}
-        {% if num == all_post.number %}
-        <li class="page-item active">
-          <a class="page-link" href="?page={{num}}">{{num}} <span class="sr-only"></span></a>
-        </li>
-        {% else %}
-            <li class="page-item">
-              <a class="page-link" href="?page={{num}}">{{num}} <span class="sr-only"></span></a>
-            </li>
-        {% endif %}
-    {% endfor %}
-
-    {% if all_post.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?page={{ all_post.next_page_number }}" tabindex="">→</a>
-        </li>
-    {% endif %}
 </div>
 </div>
 </div>
